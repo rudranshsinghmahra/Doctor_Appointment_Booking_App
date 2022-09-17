@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'main_screen.dart';
 
 class SuccessfullyBooked extends StatefulWidget {
-  const SuccessfullyBooked({Key? key}) : super(key: key);
+  const SuccessfullyBooked({Key? key, this.bookingStatus}) : super(key: key);
+  final String? bookingStatus;
 
   @override
   _SuccessfullyBookedState createState() => _SuccessfullyBookedState();
@@ -24,9 +25,9 @@ class _SuccessfullyBookedState extends State<SuccessfullyBooked> {
               height: MediaQuery.of(context).size.height * 0.27,
               child: Image.asset("assets/images/success.gif"),
             ),
-            const Text(
-              "Appointment Booked ...",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Text(
+              "Appointment ${widget.bookingStatus} ...",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 35,
@@ -37,10 +38,11 @@ class _SuccessfullyBookedState extends State<SuccessfullyBooked> {
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.06,
                 child: ElevatedButton(
-
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => MainScreen()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MainScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                     primary: const Color.fromRGBO(70, 212, 153, 10),

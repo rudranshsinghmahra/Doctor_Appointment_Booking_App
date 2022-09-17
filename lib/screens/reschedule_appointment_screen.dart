@@ -1,34 +1,34 @@
+import 'package:audioplayers/audio_cache.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:audioplayers/audio_cache.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 import 'confirmation_page.dart';
 
-class DoctorDetailPage extends StatefulWidget {
-  const DoctorDetailPage(
-      {super.key,
-      this.name,
-      this.speciality,
-      this.doctorId,
-      this.doctorProfilePicture});
-  final String? name;
-  final String? speciality;
-  final String? doctorId;
-  final String? doctorProfilePicture;
+class RescheduleAppointmentScreen extends StatefulWidget {
+  const RescheduleAppointmentScreen(
+      {Key? key,
+      this.doctorName,
+      this.doctorSpeciality,
+      this.documentId,
+      this.doctorProfilePic})
+      : super(key: key);
+  final String? doctorName;
+  final String? doctorSpeciality;
+  final String? documentId;
+  final String? doctorProfilePic;
 
   @override
-  State<StatefulWidget> createState() => _DoctorDetailState();
+  State<RescheduleAppointmentScreen> createState() =>
+      _RescheduleAppointmentScreenState();
 }
 
-class _DoctorDetailState extends State<DoctorDetailPage> {
+class _RescheduleAppointmentScreenState
+    extends State<RescheduleAppointmentScreen> {
   DateTime? date;
   TimeOfDay? time;
-  TextEditingController phoneController = TextEditingController();
-  String phoneNumber = "";
   bool loading = false;
 
   String getText() {
@@ -45,7 +45,7 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
     } else {
       final hours = time?.hour.toString().padLeft(2, '0');
       final minutes = time?.minute.toString().padLeft(2, '0');
-      return '$hours:$minutes';
+      return '${hours}:${minutes}';
     }
   }
 
@@ -66,12 +66,12 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
     final hours = time?.hour.toString().padLeft(2, '0');
     final minutes = time?.minute.toString().padLeft(2, '0');
 
-    final CollectionReference collectionReference =
+    final CollectionReference appointments =
         FirebaseFirestore.instance.collection(collectionName);
 
     final player = AudioCache();
 
-    if (phoneController.text.isEmpty || date == null || time == null) {
+    if (date == null || time == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
@@ -83,29 +83,17 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
       );
     } else {
       await pr.show();
-      await collectionReference.add({
-        "appointment_status": "Waiting Approval",
-        "customerId": FirebaseAuth.instance.currentUser?.uid.toString(),
-        "customerName": FirebaseAuth.instance.currentUser?.displayName,
-        "customerEmail": FirebaseAuth.instance.currentUser?.email,
-        "customerPhone": phoneNumber,
-        "doctor": {
-          "doctorId": widget.doctorId.toString(),
-          "doctorName": widget.name.toString(),
-          "doctorSpecialization": widget.speciality.toString(),
-          "doctorProfilePicture": widget.doctorProfilePicture.toString(),
-        },
-        "timestamp": DateTime.now().millisecondsSinceEpoch,
+      await appointments.doc(widget.documentId).update({
         "selectedTime": '$hours:$minutes',
         "selectedDate": DateFormat('dd/MM/yyyy').format(date!),
-      }).then((value) => phoneController.clear());
+      });
       await pr.hide();
       player
           .play("notification.mp3")
           .then((value) => ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text(
-                    "Appointment Booked Successfully",
+                    "Appointment Rescheduled Successfully",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   backgroundColor: Colors.green,
@@ -116,7 +104,7 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    const SuccessfullyBooked(bookingStatus: "Booked"),
+                    const SuccessfullyBooked(bookingStatus: "Rescheduled"),
               ),
             ),
           );
@@ -185,7 +173,7 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(50),
                               child: Image.network(
-                                  widget.doctorProfilePicture.toString()),
+                                  widget.doctorProfilePic.toString()),
                             ),
                           ),
                           Container(
@@ -195,7 +183,7 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.name.toString(),
+                                  "${widget.doctorName}",
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 22,
@@ -204,14 +192,14 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
                                   ),
                                 ),
                                 Container(
-                                  margin: const EdgeInsets.only(top: 10),
+                                  margin: const EdgeInsets.only(top: 3),
                                   child: Text(
-                                    widget.speciality.toString(),
+                                    "${widget.doctorSpeciality}",
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
                                       fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ),
@@ -237,7 +225,7 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
                   Container(
                     margin: const EdgeInsets.only(left: 20, top: 30),
                     child: const Text(
-                      'Appointment Date',
+                      'Reschedule Date',
                       style: TextStyle(
                         color: Color(0xff363636),
                         fontSize: 25,
@@ -268,7 +256,7 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
                   Container(
                     margin: const EdgeInsets.only(left: 20, top: 30),
                     child: const Text(
-                      'Appointment Time',
+                      'Reschedule Time',
                       style: TextStyle(
                         color: Color(0xff363636),
                         fontSize: 25,
@@ -298,82 +286,30 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 20, top: 30),
-                    child: const Text(
-                      'Phone Number',
-                      style: TextStyle(
-                        color: Color(0xff363636),
-                        fontSize: 25,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextField(
-                      maxLength: 10,
-                      controller: phoneController,
-                      keyboardType: TextInputType.number,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 19),
-                      decoration: InputDecoration(
-                        prefixIcon: const Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 12, horizontal: 15),
-                          child: Text(
-                            " (+91) ",
-                            style: TextStyle(
-                                fontSize: 19, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        prefixStyle: const TextStyle(
-                            fontSize: 19,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                        hintText: "Phone Number",
-                        hintStyle: const TextStyle(
-                          letterSpacing: 2,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        fillColor: const Color.fromRGBO(70, 212, 153, 0.8),
-                        filled: true,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide.none),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xff107163),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        onPressed: () {
-                          setState(() {
-                            loading = true;
-                            phoneNumber = phoneController.text;
-                          });
-                          bookAppointment();
-                        },
-                        child: const Text(
-                          "BOOK APPOINTMENT",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
+              ),
+            ),
+            bottomSheet: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SizedBox(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.07,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff107163),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  onPressed: () {
+                    setState(() {
+                      loading = true;
+                    });
+                    bookAppointment();
+                  },
+                  child: const Text(
+                    "Reschedule Appointment",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
               ),
             ),
           );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'doctor_details_page.dart';
+
 class DocInfoPage extends StatelessWidget {
   const DocInfoPage({Key? key}) : super(key: key);
 
@@ -11,23 +12,36 @@ class DocInfoPage extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'avenir',
       ),
-      home: docInfoPage(),
+      home: const DoctorAboutPage(),
     );
   }
 }
 
-class docInfoPage extends StatefulWidget {
+class DoctorAboutPage extends StatefulWidget {
+  const DoctorAboutPage(
+      {super.key,
+      this.name,
+      this.speciality,
+      this.profilePic,
+      this.doctorAbout,
+      this.doctorUid});
+  final String? name;
+  final String? speciality;
+  final String? profilePic;
+  final String? doctorAbout;
+  final String? doctorUid;
+
   @override
-  _docInfoPageState createState() => _docInfoPageState();
+  _DoctorAboutPageState createState() => _DoctorAboutPageState();
 }
 
-class _docInfoPageState extends State<docInfoPage> {
+class _DoctorAboutPageState extends State<DoctorAboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(70, 212, 153, 1),
-        title: Text("Dr. Lata Grover"),
+        backgroundColor: const Color.fromRGBO(70, 212, 153, 1),
+        title: Text("${widget.name}"),
         centerTitle: true,
         elevation: 0,
       ),
@@ -36,7 +50,7 @@ class _docInfoPageState extends State<docInfoPage> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               gradient: LinearGradient(
             begin: Alignment(0, -1.15),
             end: Alignment(0, 0.1),
@@ -46,11 +60,11 @@ class _docInfoPageState extends State<docInfoPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.4,
                 width: MediaQuery.of(context).size.width,
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Image.asset('assets/images/bg1.png'),
                 ),
               ),
@@ -65,77 +79,86 @@ class _docInfoPageState extends State<docInfoPage> {
                   color: Color.fromARGB(70, 212, 153, 10),
                 ),
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Row(
                           children: <Widget>[
-                            Container(
-                              height: 170,
-                              width: 170,
-                              child:
-                                  Image.asset('assets/images/doctor_lata.png'),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text(
-                                  "Dr. Lata Grover",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(45),
+                                child: SizedBox(
+                                  height: 150,
+                                  width: 150,
+                                  child: Image.network(
+                                      widget.profilePic.toString()),
                                 ),
-                                Text(
-                                  "Homeopathic Doctor",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${widget.name}",
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                  textAlign: TextAlign.center,
-                                )
-                              ],
+                                  Text(
+                                    "${widget.speciality}",
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 8, right: 8),
+                          padding: const EdgeInsets.only(left: 8, right: 8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
-                              Text(
+                              const Text(
                                 "About the Doctor",
                                 style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text(
-                                "Along with being a successful practicing homeopath, Dr Lata Bisht Grover has done Bachelor in Homeopathic Medicine and Surgery and has a certified Doctor of Medicine degree. Dr Grover has treated over 1000+ patients successfully. She specialises in treating acute as well as chronic ailments and Lifestyle Disorders. ",
-                                style: TextStyle(
+                                widget.doctorAbout.toString(),
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
-                              Text(
+                              const Text(
                                 "Available Time Slots",
                                 style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               timeSlotWidget("SUN", "Consultation",
@@ -152,7 +175,7 @@ class _docInfoPageState extends State<docInfoPage> {
                                   "FRI", "Consultation", "Friday 8 am to 1 am"),
                               timeSlotWidget("SAT", "Consultation",
                                   "Saturday 8 am to 1 am"),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               Padding(
@@ -165,17 +188,24 @@ class _docInfoPageState extends State<docInfoPage> {
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all(
-                                        Color(0xff107163),
+                                        const Color(0xff107163),
                                       ),
                                     ),
                                     onPressed: () {
                                       Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DoctorDetailPage()));
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              DoctorDetailPage(
+                                            name: widget.name,
+                                            speciality: widget.speciality,
+                                            doctorId: widget.doctorUid,
+                                                doctorProfilePicture: widget.profilePic,
+                                          ),
+                                        ),
+                                      );
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       "BOOK APPOINTMENT",
                                       style: TextStyle(fontSize: 20),
                                     ),
@@ -199,19 +229,19 @@ class _docInfoPageState extends State<docInfoPage> {
 
   Container timeSlotWidget(String month, String slotType, String time) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 10),
       width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           color: Color.fromRGBO(70, 212, 153, 10)),
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Row(
           children: <Widget>[
             Container(
               height: 50,
               width: 90,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 color: Color.fromRGBO(14, 66, 39, 10),
               ),
@@ -219,8 +249,8 @@ class _docInfoPageState extends State<docInfoPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "$month",
-                    style: TextStyle(
+                    month,
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.w800),
@@ -228,22 +258,23 @@ class _docInfoPageState extends State<docInfoPage> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "$slotType",
-                  style: TextStyle(
+                  slotType,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
                 Text(
-                  "$time",
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                  time,
+                  style: const TextStyle(
+                      fontSize: 17, fontWeight: FontWeight.w600),
                 )
               ],
             )

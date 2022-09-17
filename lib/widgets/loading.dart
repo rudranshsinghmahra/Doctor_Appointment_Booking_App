@@ -11,7 +11,7 @@ class Loading extends StatelessWidget {
       body: Center(
         child: SpinKitPumpingHeart(
           color: Colors.green,
-          size: 100,
+          size: 50,
         ),
       ),
     );

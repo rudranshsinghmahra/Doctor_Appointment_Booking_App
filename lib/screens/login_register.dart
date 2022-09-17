@@ -1,7 +1,7 @@
 import 'package:doctor_appointment_booking_app/screens/register.dart';
 import 'package:flutter/material.dart';
-
 import '../main.dart';
+import 'home_page.dart';
 
 class LoginRegisterPage extends StatefulWidget {
   const LoginRegisterPage({Key? key}) : super(key: key);
