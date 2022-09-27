@@ -228,6 +228,7 @@ class _MainScreenState extends State<MainScreen> {
                                               child: Image.network(
                                                 document[
                                                     'doctor_profile_picture'],
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
                                           ),

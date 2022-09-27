@@ -21,6 +21,7 @@ class _UserBookingHistoryState extends State<UserBookingHistory> {
     'Accepted',
     'Cancelled',
     'Rejected',
+    'Completed',
   ];
 
   FirebaseServices services = FirebaseServices();
@@ -69,14 +70,29 @@ class _UserBookingHistoryState extends State<UserBookingHistory> {
               }
               if (snapshot.data?.size == 0) {
                 //TODO: No Appointments screen
-                return Center(
-                  child: Text(tag > 0
-                      ? "No ${options[tag]} Appointments"
-                      : "No Appointments Currently"),
+                return Expanded(
+                  child: SizedBox(
+                    child: Center(
+                      child: Text(
+                        tag > 0
+                            ? "No ${options[tag]} Appointments"
+                            : "No Appointments Currently",
+                        style: const TextStyle(fontSize: 18),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
                 );
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Expanded(
+                  child: SizedBox(
+                    child: Center(
+                        child: CircularProgressIndicator(
+                      color: Color.fromRGBO(80, 212, 153, 1),
+                    )),
+                  ),
+                );
               }
               return Expanded(
                 child: ListView(

@@ -23,11 +23,6 @@ class _AppointmentSummaryCardState extends State<AppointmentSummaryCard> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: widget.documentSnapshot['appointment_status'] == "Accepted" ||
-                widget.documentSnapshot['appointment_status'] == "Cancelled" ||
-                widget.documentSnapshot['appointment_status'] == "Rejected"
-            ? 150
-            : 210,
         width: MediaQuery.of(context).size.width,
         child: Card(
           child: Padding(
@@ -110,25 +105,31 @@ class _AppointmentSummaryCardState extends State<AppointmentSummaryCard> {
                       ),
                       Row(
                         children: [
-                          ClipOval(
-                            child: Container(
-                              color: widget.documentSnapshot[
-                                          'appointment_status'] ==
-                                      "Waiting Approval"
-                                  ? Colors.amber
-                                  : (widget.documentSnapshot[
-                                              'appointment_status'] ==
-                                          "Rejected"
-                                      ? Colors.red
-                                      : (widget.documentSnapshot[
-                                                  'appointment_status'] ==
-                                              "Cancelled"
-                                          ? Colors.grey
-                                          : Colors.green)),
-                              width: 8,
-                              height: 8,
-                            ),
-                          ),
+                          widget.documentSnapshot['appointment_status'] ==
+                                  "Completed"
+                              ? const Icon(
+                                  Icons.verified,
+                                  color: Colors.blue,
+                                )
+                              : ClipOval(
+                                  child: Container(
+                                    color: widget.documentSnapshot[
+                                                'appointment_status'] ==
+                                            "Waiting Approval"
+                                        ? Colors.amber
+                                        : (widget.documentSnapshot[
+                                                    'appointment_status'] ==
+                                                "Rejected"
+                                            ? Colors.red
+                                            : (widget.documentSnapshot[
+                                                        'appointment_status'] ==
+                                                    "Cancelled"
+                                                ? Colors.grey
+                                                : Colors.green)),
+                                    width: 8,
+                                    height: 8,
+                                  ),
+                                ),
                           const SizedBox(
                             width: 5,
                           ),
@@ -144,92 +145,109 @@ class _AppointmentSummaryCardState extends State<AppointmentSummaryCard> {
                     ],
                   ),
                 ),
-                widget.documentSnapshot['appointment_status'] == "Accepted" ||
+                widget.documentSnapshot['appointment_status'] == "Completed" ||
                         widget.documentSnapshot['appointment_status'] ==
                             "Cancelled" ||
                         widget.documentSnapshot['appointment_status'] ==
                             "Rejected"
                     ? Container()
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.40,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  backgroundColor: Colors.grey.shade300,
-                                ),
-                                onPressed: () {
-                                  showCustomDialog(
-                                      context, "Cancel", "Cancelled");
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 13.0,
-                                      left: 15,
-                                      right: 15,
-                                      bottom: 13),
-                                  child: Text(
-                                    "Cancel",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 18),
-                                  ),
-                                ),
+                    : (widget.documentSnapshot['appointment_status'] ==
+                            "Accepted"
+                        ? const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Text(
+                                "Appointment Accepted !\nPlease wait for the doctor's call and keep you previous test report in hand if available.",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.grey),
                               ),
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.40,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  elevation: 0,
-                                  backgroundColor:
-                                      const Color.fromRGBO(70, 212, 153, 0.8),
-                                ),
-                                onPressed: () {
-                                  //TODO Rescheduling Appointment Function
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          RescheduleAppointmentScreen(
-                                        doctorName:
-                                            widget.documentSnapshot['doctor']
-                                                ["doctorName"],
-                                        doctorSpeciality:
-                                            widget.documentSnapshot['doctor']
-                                                ["doctorSpecialization"],
-                                        documentId: widget.documentSnapshot.id,
-                                        doctorProfilePic:
-                                            widget.documentSnapshot['doctor']
-                                                ['doctorProfilePicture'],
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.40,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      backgroundColor: Colors.grey.shade300,
+                                    ),
+                                    onPressed: () {
+                                      showCustomDialog(
+                                          context, "Cancel", "Cancelled");
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 13.0,
+                                          left: 15,
+                                          right: 15,
+                                          bottom: 13),
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 18),
                                       ),
                                     ),
-                                  );
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 13.0,
-                                      left: 15,
-                                      right: 15,
-                                      bottom: 13),
-                                  child: Text(
-                                    "Reschedule",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
                                   ),
                                 ),
-                              ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.40,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      elevation: 0,
+                                      backgroundColor: const Color.fromRGBO(
+                                          70, 212, 153, 0.8),
+                                    ),
+                                    onPressed: () {
+                                      //TODO Rescheduling Appointment Function
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              RescheduleAppointmentScreen(
+                                            doctorName: widget
+                                                    .documentSnapshot['doctor']
+                                                ["doctorName"],
+                                            doctorSpeciality: widget
+                                                    .documentSnapshot['doctor']
+                                                ["doctorSpecialization"],
+                                            documentId:
+                                                widget.documentSnapshot.id,
+                                            doctorProfilePic: widget
+                                                    .documentSnapshot['doctor']
+                                                ['doctorProfilePicture'],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 13.0,
+                                          left: 15,
+                                          right: 15,
+                                          bottom: 13),
+                                      child: Text(
+                                        "Reschedule",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 18),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      )
+                          ))
               ],
             ),
           ),
