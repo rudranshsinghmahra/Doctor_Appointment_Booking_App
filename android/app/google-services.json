@@ -14,11 +14,48 @@
       },
       "oauth_client": [
         {
-          "client_id": "599843032180-s1hqnelinsiejgfsv5g011ssbid411jn.apps.googleusercontent.com",
+          "client_id": "599843032180-q547nnfdrfktsb336of0s4ej0kj4jl8n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.rudransh.doctor_appointment_booking_app",
-            "certificate_hash": "a06209f4eaddff43d02578e5e90a7baee8e29226"
+            "certificate_hash": "f9653b4e59bfda4433d608ca932dfc7dc73a490a"
+          }
+        },
+        {
+          "client_id": "599843032180-q1c5pu3pr2l5a3b9gvfdmhq54les4i5k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApA_dL_JuPltpJsPhXQxLyBAad1Ag9jZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599843032180-q1c5pu3pr2l5a3b9gvfdmhq54les4i5k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599843032180:android:17c4a4e571b61cc6d51521",
+        "android_client_info": {
+          "package_name": "com.rudransh.doctors_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599843032180-88p0jde7l7us3p6ilqkra1a20e4th133.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rudransh.doctors_app",
+            "certificate_hash": "f9653b4e59bfda4433d608ca932dfc7dc73a490a"
           }
         },
         {

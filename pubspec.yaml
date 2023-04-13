@@ -38,7 +38,7 @@ dependencies:
   cupertino_icons:
   simple_animations:
   font_awesome_flutter:
-  firebase_core: ^1.22.0
+  firebase_core: ^2.9.0
   firebase_auth:
   google_sign_in:
   provider:
@@ -52,7 +52,7 @@ dependencies:
   platform:
   progress_dialog:
   chips_choice_null_safety: ^2.0.6
-  awesome_dialog: ^3.0.1
+  awesome_dialog: ^3.0.2
 
 dev_dependencies:
   flutter_test:
