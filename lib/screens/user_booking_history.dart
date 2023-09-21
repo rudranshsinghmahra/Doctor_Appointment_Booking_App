@@ -1,4 +1,4 @@
-import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
+import 'package:chips_choice/chips_choice.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctor_appointment_booking_app/provider.dart';
 import 'package:doctor_appointment_booking_app/services/firebase_services.dart';
@@ -55,7 +55,7 @@ class _UserBookingHistoryState extends State<UserBookingHistory> {
               value: (i, v) => i,
               label: (i, v) => v,
             ),
-            choiceStyle: const C2ChoiceStyle(color: Colors.green),
+            choiceStyle: const C2ChipStyle(backgroundColor: Colors.green),
           ),
           StreamBuilder<QuerySnapshot>(
             stream: services.appointments

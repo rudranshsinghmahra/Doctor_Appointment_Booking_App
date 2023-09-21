@@ -1,9 +1,9 @@
-import 'package:audioplayers/audio_cache.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:progress_dialog/progress_dialog.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 import 'confirmation_page.dart';
 
@@ -50,16 +50,13 @@ class _RescheduleAppointmentScreenState
   }
 
   Future<void> bookAppointment() async {
-    final ProgressDialog pr = ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
-    pr.style(
+    final ProgressDialog pr = ProgressDialog(context: context);
+    pr.show(
       borderRadius: 10.0,
       backgroundColor: Colors.white,
-      progressWidget: const CircularProgressIndicator(),
+      progressType: ProgressType.normal,
+      max: 100,
       elevation: 10.0,
-      insetAnimCurve: Curves.easeInOut,
-      progress: 0.0,
-      maxProgress: 100.0,
     );
 
     String collectionName = "appointments";
@@ -69,7 +66,11 @@ class _RescheduleAppointmentScreenState
     final CollectionReference appointments =
         FirebaseFirestore.instance.collection(collectionName);
 
-    final player = AudioCache();
+    final AudioPlayer audioPlayer = AudioPlayer();
+    Future playAssetAudio() async {
+      await audioPlayer.setAsset('assets/notification.mp3');
+      audioPlayer.play();
+    }
 
     if (date == null || time == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -87,9 +88,8 @@ class _RescheduleAppointmentScreenState
         "selectedTime": '$hours:$minutes',
         "selectedDate": DateFormat('dd/MM/yyyy').format(date!),
       });
-      await pr.hide();
-      player
-          .play("notification.mp3")
+      pr.close();
+      playAssetAudio()
           .then((value) => ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text(

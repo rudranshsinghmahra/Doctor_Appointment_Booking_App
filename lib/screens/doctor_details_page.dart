@@ -3,8 +3,8 @@ import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:audioplayers/audio_cache.dart';
-import 'package:progress_dialog/progress_dialog.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 import 'confirmation_page.dart';
 
@@ -15,6 +15,7 @@ class DoctorDetailPage extends StatefulWidget {
       this.speciality,
       this.doctorId,
       this.doctorProfilePicture});
+
   final String? name;
   final String? speciality;
   final String? doctorId;
@@ -50,26 +51,27 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
   }
 
   Future<void> bookAppointment() async {
-    final ProgressDialog pr = ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
-    pr.style(
-      borderRadius: 10.0,
-      backgroundColor: Colors.white,
-      progressWidget: const CircularProgressIndicator(),
-      elevation: 10.0,
-      insetAnimCurve: Curves.easeInOut,
-      progress: 0.0,
-      maxProgress: 100.0,
-    );
+    final ProgressDialog pr = ProgressDialog(context: context);
+    // pr.show(
+    //   borderRadius: 10.0,
+    //   backgroundColor: Colors.white,
+    //   progressType: ProgressType.normal,
+    //   max: 100,
+    //   elevation: 10.0,
+    // );
 
     String collectionName = "appointments";
     final hours = time?.hour.toString().padLeft(2, '0');
     final minutes = time?.minute.toString().padLeft(2, '0');
 
-    final CollectionReference collectionReference =
+    final CollectionReference appointment =
         FirebaseFirestore.instance.collection(collectionName);
 
-    final player = AudioCache();
+    final AudioPlayer audioPlayer = AudioPlayer();
+    Future playAssetAudio() async {
+      await audioPlayer.setAsset('assets/notification.mp3');
+      audioPlayer.play();
+    }
 
     if (date == null || time == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -93,44 +95,45 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
         ),
       );
     } else {
-      await pr.show();
-      await collectionReference.add({
-        "appointment_status": "Waiting Approval",
-        "customerId": FirebaseAuth.instance.currentUser?.uid.toString(),
-        "customerName": FirebaseAuth.instance.currentUser?.displayName,
-        "customerEmail": FirebaseAuth.instance.currentUser?.email,
-        "customerPhone": phoneNumber,
-        "doctor": {
-          "doctorId": widget.doctorId.toString(),
-          "doctorName": widget.name.toString(),
-          "doctorSpecialization": widget.speciality.toString(),
-          "doctorProfilePicture": widget.doctorProfilePicture.toString(),
-        },
-        // "timestamp": ,
-        "selectedTime": '$hours:$minutes',
-        "selectedDate": DateFormat('dd/MM/yyyy').format(date!),
-      }).then((value) => phoneController.clear());
-      await pr.hide();
-      player
-          .play("notification.mp3")
-          .then((value) => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    "Appointment Booked Successfully",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  backgroundColor: Colors.green,
-                ),
-              ))
-          .then(
-            (value) => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    const SuccessfullyBooked(bookingStatus: "Booked"),
-              ),
+      try{
+        await appointment.add({
+          "appointment_status": "Waiting Approval",
+          "customerId": FirebaseAuth.instance.currentUser?.uid.toString(),
+          "customerName": FirebaseAuth.instance.currentUser?.displayName,
+          "customerEmail": FirebaseAuth.instance.currentUser?.email,
+          "customerPhone": phoneNumber,
+          "doctor": {
+            "doctorId": widget.doctorId.toString(),
+            "doctorName": widget.name.toString(),
+            "doctorSpecialization": widget.speciality.toString(),
+            "doctorProfilePicture": widget.doctorProfilePicture.toString(),
+          },
+          // "timestamp": ,
+          "selectedTime": '$hours:$minutes',
+          "selectedDate": DateFormat('dd/MM/yyyy').format(date!),
+        }).then((value) => phoneController.clear());
+        playAssetAudio()
+            .then((value) => ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              "Appointment Booked Successfully",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-          );
+            backgroundColor: Colors.green,
+          ),
+        ))
+            .then(
+              (value) => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+              const SuccessfullyBooked(bookingStatus: "Booked"),
+            ),
+          ),
+        );
+      }catch(e){
+        print(e);
+      }
     }
     return;
   }
