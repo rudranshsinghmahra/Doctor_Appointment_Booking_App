@@ -122,8 +122,7 @@ class _RescheduleAppointmentScreenState
       stream: Connectivity().onConnectivityChanged,
       builder: (BuildContext context,
           AsyncSnapshot<List<ConnectivityResult>> snapshot) {
-        if (snapshot.hasData &&
-            snapshot.data != ConnectivityResult.none) {
+        if (snapshot.hasData && snapshot.data != ConnectivityResult.none) {
           return Scaffold(
             appBar: AppBar(
               elevation: 0.0,

@@ -3,8 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import '../blocs/auth_bloc.dart';
-import '../main.dart';
+import '../auth/firebase_authentication.dart';
 import '../widgets/loading.dart';
 import 'home_page.dart';
 import 'main_screen.dart';
@@ -22,7 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void initState() {
-    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    var authBloc = Provider.of<FirebaseAuthentication>(context, listen: false);
     loginStateSubscription = authBloc.currentUser.listen((fbUser) {
       if (fbUser != null) {
         Navigator.pushReplacement(
@@ -44,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = Provider.of<AuthBloc>(context);
+    final authBloc = Provider.of<FirebaseAuthentication>(context);
     return loading
         ? const Loading()
         : Scaffold(

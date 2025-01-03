@@ -1,10 +1,10 @@
 import 'dart:async';
+import 'package:doctor_appointment_booking_app/auth/firebase_authentication.dart';
 import 'package:doctor_appointment_booking_app/screens/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import '../blocs/auth_bloc.dart';
 import '../widgets/loading.dart';
 import 'main_screen.dart';
 
@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    var authBloc = Provider.of<FirebaseAuthentication>(context, listen: false);
     loginStateSubscription = authBloc.currentUser.listen((fbUser) {
       if (fbUser != null) {
         Navigator.pushReplacement(
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = Provider.of<AuthBloc>(context);
+    final authBloc = Provider.of<FirebaseAuthentication>(context);
     return loading
         ? const Loading()
         : Scaffold(

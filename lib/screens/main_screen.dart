@@ -5,7 +5,7 @@ import 'package:doctor_appointment_booking_app/services/firebase_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../blocs/auth_bloc.dart';
+import '../auth/firebase_authentication.dart';
 import 'doctor_about_page.dart';
 import 'home_page.dart';
 
@@ -32,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    var authBloc = Provider.of<FirebaseAuthentication>(context, listen: false);
 
     loginStateSubscription = authBloc.currentUser.listen((fbUser) {
       if (fbUser == null) {
@@ -55,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = Provider.of<AuthBloc>(context);
+    final authBloc = Provider.of<FirebaseAuthentication>(context);
     final user = FirebaseAuth.instance.currentUser!;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
