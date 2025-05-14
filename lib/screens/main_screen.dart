@@ -124,9 +124,9 @@ class _MainScreenState extends State<MainScreen> {
                   Container(
                     width: size.width,
                     margin: const EdgeInsets.only(top: 20, left: 20),
-                    child: Stack(
+                    child: const Stack(
                       fit: StackFit.loose,
-                      children: const [
+                      children: [
                         Text(
                           "Doctor's Specialization",
                           style: TextStyle(
@@ -157,9 +157,9 @@ class _MainScreenState extends State<MainScreen> {
                   Container(
                     width: size.width,
                     margin: const EdgeInsets.only(top: 20, left: 20),
-                    child: Stack(
+                    child: const Stack(
                       fit: StackFit.loose,
-                      children: const [
+                      children: [
                         Text(
                           'Our Doctor',
                           style: TextStyle(
@@ -238,15 +238,17 @@ class _MainScreenState extends State<MainScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 8.0, bottom: 8),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 8.0, bottom: 8),
                                                   child: Text(
                                                     document['doctor_name'],
                                                     style: const TextStyle(
                                                       color: Color(0xff363636),
                                                       fontSize: 17,
                                                       fontFamily: 'Roboto',
-                                                      fontWeight: FontWeight.w700,
+                                                      fontWeight:
+                                                          FontWeight.w700,
                                                     ),
                                                   ),
                                                 ),
@@ -267,24 +269,28 @@ class _MainScreenState extends State<MainScreen> {
                                                         Text(
                                                           document[
                                                               'doctor_specialization'],
-                                                          style: const TextStyle(
-                                                              color: Colors.grey,
-                                                              fontFamily:
-                                                                  'Roboto',
-                                                              fontWeight:
-                                                                  FontWeight.w300,
-                                                              fontSize: 14),
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontFamily:
+                                                                      'Roboto',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize: 14),
                                                         ),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           width: 80,
                                                           child: Row(
-                                                            children: const [
+                                                            children: [
                                                               Text(
-                                                                "Rating",
+                                                                "⭐",
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .black,
-                                                                    fontSize: 14,
+                                                                    fontSize:
+                                                                        14,
                                                                     fontFamily:
                                                                         'Roboto',
                                                                     fontWeight:
@@ -296,7 +302,8 @@ class _MainScreenState extends State<MainScreen> {
                                                               ),
                                                               Text(
                                                                 "4.8",
-                                                                style: TextStyle(
+                                                                style:
+                                                                    TextStyle(
                                                                   color: Colors
                                                                       .green,
                                                                   fontSize: 14,
@@ -418,7 +425,15 @@ class _MainScreenState extends State<MainScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(img),
+          SizedBox(
+            height: 40,
+            width: 40,
+            child: Image.asset(
+              img,
+              fit: BoxFit.contain,
+              filterQuality: FilterQuality.high,
+            ),
+          ),
           Container(
             margin: const EdgeInsets.only(top: 10),
             child: Text(

@@ -126,7 +126,7 @@ class _RescheduleAppointmentScreenState
           return Scaffold(
             appBar: AppBar(
               elevation: 0.0,
-              backgroundColor: const Color.fromRGBO(70, 212, 153, 10),
+              backgroundColor: const Color.fromRGBO(70, 212, 153, 1),
               centerTitle: true,
               leading: GestureDetector(
                 onTap: () {
@@ -246,7 +246,8 @@ class _RescheduleAppointmentScreenState
                         onPressed: () => pickDate(context),
                         child: Text(
                           getText(),
-                          style: const TextStyle(fontSize: 20),
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.white),
                         ),
                       ),
                     ),
@@ -270,16 +271,19 @@ class _RescheduleAppointmentScreenState
                       height: MediaQuery.of(context).size.height * 0.07,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromRGBO(70, 212, 153, 0.8),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20))),
+                          backgroundColor:
+                              const Color.fromRGBO(70, 212, 153, 0.8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
                         onPressed: () {
                           pickTime(context);
                         },
                         child: Text(
                           getTimeText(),
-                          style: const TextStyle(fontSize: 20),
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.white),
                         ),
                       ),
                     ),

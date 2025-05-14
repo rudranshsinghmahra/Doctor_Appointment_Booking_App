@@ -148,264 +148,269 @@ class _DoctorDetailState extends State<DoctorDetailPage> {
         if (snapshot != null &&
             snapshot.hasData &&
             snapshot.data != ConnectivityResult.none) {
-          return Scaffold(
-            appBar: AppBar(
-              elevation: 0.0,
-              backgroundColor: const Color.fromRGBO(70, 212, 153, 10),
-              centerTitle: true,
-              leading: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
-              ),
-              actions: [
-                GestureDetector(
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 15),
+          return Container(
+            color: const Color.fromRGBO(70, 212, 153, 1),
+            child: SafeArea(
+              child: Scaffold(
+                appBar: AppBar(
+                  elevation: 0.0,
+                  backgroundColor: const Color.fromRGBO(70, 212, 153, 1),
+                  centerTitle: true,
+                  leading: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
                     child: const Icon(
-                      Icons.notifications_rounded,
+                      Icons.arrow_back,
                       color: Colors.white,
                     ),
                   ),
+                  actions: [
+                    GestureDetector(
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 15),
+                        child: const Icon(
+                          Icons.notifications_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 250,
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(70, 212, 153, 1),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30))),
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10, top: 10),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: SizedBox(
-                              width: 155,
-                              height: 155,
-                              child: Image.network(
-                                widget.doctorProfilePicture.toString(),
-                                fit: BoxFit.cover,
+                body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 250,
+                      decoration: const BoxDecoration(
+                          color: Color.fromRGBO(70, 212, 153, 1),
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30))),
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10, top: 10),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: SizedBox(
+                                  width: 155,
+                                  height: 155,
+                                  child: Image.network(
+                                    widget.doctorProfilePicture.toString(),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 20, top: 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.name.toString(),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontFamily: 'Roboto',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 10),
+                                    child: Text(
+                                      widget.speciality.toString(),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontFamily: 'Roboto',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 15),
+                                    child: const Text(
+                                      'Rating: 4.8',
+                                      style: TextStyle(
+                                        color: Colors.yellow,
+                                        fontSize: 15,
+                                        fontFamily: 'Roboto',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 20, top: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.name.toString(),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
+                      ),
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(left: 20, top: 30),
+                              child: const Text(
+                                'Appointment Date',
+                                style: TextStyle(
+                                  color: Color(0xff363636),
+                                  fontSize: 25,
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 10),
-                                child: Text(
-                                  widget.speciality.toString(),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.bold,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: MediaQuery.of(context).size.height * 0.07,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          const Color.fromRGBO(70, 212, 153, 0.8),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20))),
+                                  onPressed: () => pickDate(context),
+                                  child: Text(
+                                    getText(),
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white70,
+                                    ),
                                   ),
                                 ),
                               ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 15),
-                                child: const Text(
-                                  'Rating: 4.8',
-                                  style: TextStyle(
-                                    color: Colors.yellow,
-                                    fontSize: 15,
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(left: 20, top: 30),
-                          child: const Text(
-                            'Appointment Date',
-                            style: TextStyle(
-                              color: Color(0xff363636),
-                              fontSize: 25,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w700,
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromRGBO(70, 212, 153, 0.8),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                              onPressed: () => pickDate(context),
-                              child: Text(
-                                getText(),
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white70,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 20, top: 30),
-                          child: const Text(
-                            'Appointment Time',
-                            style: TextStyle(
-                              color: Color(0xff363636),
-                              fontSize: 25,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromRGBO(70, 212, 153, 0.8),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                              onPressed: () {
-                                pickTime(context);
-                              },
-                              child: Text(
-                                getTimeText(),
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white70,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 20, top: 30),
-                          child: const Text(
-                            'Phone Number',
-                            style: TextStyle(
-                              color: Color(0xff363636),
-                              fontSize: 25,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: TextField(
-                            maxLength: 10,
-                            controller: phoneController,
-                            keyboardType: TextInputType.number,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 19),
-                            decoration: InputDecoration(
-                              prefixIcon: const Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 12, horizontal: 15),
-                                child: Text(
-                                  " (+91) ",
-                                  style: TextStyle(
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              prefixStyle: const TextStyle(
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                              hintText: "Phone Number",
-                              hintStyle: const TextStyle(
-                                letterSpacing: 2,
-                                color: Colors.white70,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              fillColor:
-                                  const Color.fromRGBO(70, 212, 153, 0.8),
-                              filled: true,
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide.none),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xff107163),
-                                  shape: const StadiumBorder()),
-                              onPressed: () {
-                                setState(() {
-                                  loading = true;
-                                  phoneNumber = phoneController.text;
-                                });
-                                bookAppointment();
-                              },
+                            Container(
+                              margin: const EdgeInsets.only(left: 20, top: 30),
                               child: const Text(
-                                "BOOK APPOINTMENT",
+                                'Appointment Time',
                                 style: TextStyle(
-                                    fontSize: 20, color: Colors.white),
+                                  color: Color(0xff363636),
+                                  fontSize: 25,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
-                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: MediaQuery.of(context).size.height * 0.07,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          const Color.fromRGBO(70, 212, 153, 0.8),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20))),
+                                  onPressed: () {
+                                    pickTime(context);
+                                  },
+                                  child: Text(
+                                    getTimeText(),
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 20, top: 30),
+                              child: const Text(
+                                'Phone Number',
+                                style: TextStyle(
+                                  color: Color(0xff363636),
+                                  fontSize: 25,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: TextField(
+                                maxLength: 10,
+                                controller: phoneController,
+                                keyboardType: TextInputType.number,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 19),
+                                decoration: InputDecoration(
+                                  prefixIcon: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 12, horizontal: 15),
+                                    child: Text(
+                                      " (+91) ",
+                                      style: TextStyle(
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  prefixStyle: const TextStyle(
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                  hintText: "Phone Number",
+                                  hintStyle: const TextStyle(
+                                    letterSpacing: 2,
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  fillColor:
+                                      const Color.fromRGBO(70, 212, 153, 0.8),
+                                  filled: true,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      borderSide: BorderSide.none),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 40,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: MediaQuery.of(context).size.height * 0.07,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xff107163),
+                                      shape: const StadiumBorder()),
+                                  onPressed: () {
+                                    setState(() {
+                                      loading = true;
+                                      phoneNumber = phoneController.text;
+                                    });
+                                    bookAppointment();
+                                  },
+                                  child: const Text(
+                                    "BOOK APPOINTMENT",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
           );
         } else {
