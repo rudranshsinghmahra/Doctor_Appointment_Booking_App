@@ -152,13 +152,18 @@ class _HomePageState extends State<HomePage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Icon(FontAwesomeIcons.google,color: Colors.white,),
+                                        Icon(
+                                          FontAwesomeIcons.google,
+                                          color: Colors.white,
+                                        ),
                                         SizedBox(
                                           width: 15,
                                         ),
                                         Text(
                                           "Login With Google",
-                                          style: TextStyle(fontSize: 18),
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white),
                                         ),
                                       ],
                                     )),

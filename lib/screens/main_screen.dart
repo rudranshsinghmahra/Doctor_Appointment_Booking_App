@@ -5,6 +5,7 @@ import 'package:doctor_appointment_booking_app/services/firebase_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import '../auth/firebase_authentication.dart';
 import 'doctor_about_page.dart';
 import 'home_page.dart';
@@ -81,7 +82,25 @@ class _MainScreenState extends State<MainScreen> {
           stream: authBloc.currentUser,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return const CircularProgressIndicator();
+              return Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Column(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 150,
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      color: Colors.white,
+                    ),
+                    Container(
+                      height: 30,
+                      width: 200,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              );
             }
             return Container(
               decoration: BoxDecoration(
@@ -182,10 +201,52 @@ class _MainScreenState extends State<MainScreen> {
                           if (snapshot.hasError) {
                             return const Text("Something went wrong");
                           }
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return ListView.builder(
+                              itemCount: 4,
+                              itemBuilder: (context, index) {
+                                return Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: Card(
+                                    margin: const EdgeInsets.symmetric(vertical: 8),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(15),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 12),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  height: 14,
+                                                  width: 100,
+                                                  color: Colors.white,
+                                                ),
+                                                const SizedBox(height: 10),
+                                                Container(
+                                                  height: 12,
+                                                  width: double.infinity,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           }
                           return ListView(
